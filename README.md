@@ -20,6 +20,10 @@ The mods will include electrical, electronics and embedded systems components.
 
   We can find the start of the wave by attaching the rectified signal from Pickup coil to the base of a BJT. That way the GPIO pin will trigger once the signal reaches 0.7V.
 
+  <div id="header" align="center">
+  <img src="https://github.com/TheLowSpecPC/RE_Classic_350_mods/blob/main/Assets/Tachomete.png"/>
+  </div>
+
 ## TODO
 * Hazard Lights
 * Quick Shifter
