@@ -34,6 +34,7 @@ project(RE_Classic_350_mods C CXX ASM)
 pico_sdk_init()
 
 add_subdirectory(libraries)
+add_subdirectory(classic350_ui)
 
 # Add executable. Default name is the project name, version 0.1
 
@@ -59,7 +60,8 @@ target_include_directories(RE_Classic_350_mods PRIVATE
 target_link_libraries(RE_Classic_350_mods 
         st7735 
         freertos 
-        lvgl)
+        lvgl
+        classic350_ui)
 
 pico_add_extra_outputs(RE_Classic_350_mods)
 

@@ -12,10 +12,16 @@ add_library(freertos
 
 )
 
+target_link_libraries(freertos PUBLIC 
+    pico_stdlib
+    hardware_exception
+    hardware_sync
+    hardware_timer)
+
 target_include_directories(freertos PUBLIC
     .
     ${PICO_SDK_FREERTOS_SOURCE}/include
-    ${PICO_SDK_FREERTOS_SOURCE}/portable/GCC/ARM_CM0
+    ${PICO_SDK_FREERTOS_SOURCE}/portable/ThirdParty/GCC/RP2040/include
     ${CMAKE_CURRENT_LIST_DIR}
 )
 
