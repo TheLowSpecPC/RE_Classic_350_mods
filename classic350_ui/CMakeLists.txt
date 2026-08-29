@@ -4,7 +4,7 @@ add_library(classic350_ui STATIC)
 # Automatically grab all generated C files in the ui directory.
 # (Using GLOB is generally frowned upon in CMake, but it is highly recommended 
 # for auto-generated UI folders so you don't have to manually update this list).
-file(GLOB UI_SOURCES "src/ui/*.c")
+file(GLOB UI_SOURCES CONFIGURE_DEPENDS "src/ui/*.c")
 
 # Add the sources to the library
 target_sources(classic350_ui PRIVATE ${UI_SOURCES})

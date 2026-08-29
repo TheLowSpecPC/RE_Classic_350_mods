@@ -12,6 +12,7 @@
     "ui.c",
     "ui.h",
     "ui_image_magora.c",
+    "ui_image_needle.c",
     "vars.h"
   ]
 }

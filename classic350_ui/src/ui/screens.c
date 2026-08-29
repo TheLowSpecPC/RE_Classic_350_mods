@@ -49,12 +49,80 @@ void create_screen_intro() {
 void tick_screen_intro() {
 }
 
+void create_screen_tachometer_screen() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.tachometer_screen = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 128, 160);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 20, 144);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text_static(obj, "Tachometer");
+        }
+        {
+            // tachometer_arc
+            lv_obj_t *obj = lv_arc_create(parent_obj);
+            objects.tachometer_arc = obj;
+            lv_obj_set_pos(obj, 0, 16);
+            lv_obj_set_size(obj, 128, 128);
+            lv_arc_set_range(obj, 360, 3300);
+            lv_arc_set_value(obj, 1200);
+            lv_arc_set_bg_start_angle(obj, 120);
+            lv_arc_set_bg_end_angle(obj, 60);
+        }
+        {
+            // tachometer_scale
+            lv_obj_t *obj = lv_scale_create(parent_obj);
+            objects.tachometer_scale = obj;
+            lv_obj_set_pos(obj, 0, 16);
+            lv_obj_set_size(obj, 128, 128);
+            lv_scale_set_mode(obj, LV_SCALE_MODE_ROUND_INNER);
+            lv_scale_set_range(obj, 0, 5500);
+            lv_scale_set_angle_range(obj, 300);
+            lv_scale_set_rotation(obj, 120);
+            lv_scale_set_total_tick_count(obj, 41);
+            lv_scale_set_major_tick_every(obj, 5);
+            lv_scale_set_label_show(obj, true);
+            lv_obj_set_style_length(obj, 4, LV_PART_ITEMS);
+            lv_obj_set_style_length(obj, 6, LV_PART_INDICATOR);
+            lv_obj_set_style_line_width(obj, 3, LV_PART_INDICATOR);
+        }
+        {
+            lv_obj_t *obj = lv_led_create(parent_obj);
+            objects.obj0 = obj;
+            lv_obj_set_pos(obj, 108, 16);
+            lv_obj_set_size(obj, 16, 16);
+            lv_led_set_color(obj, lv_color_hex(0xff0000));
+            lv_led_set_brightness(obj, 255);
+        }
+        {
+            // gauge_needle
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            objects.gauge_needle = obj;
+            lv_obj_set_pos(obj, 60, 80);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_needle);
+            lv_image_set_pivot(obj, 0, 0);
+            lv_image_set_rotation(obj, 3300);
+        }
+    }
+    
+    tick_screen_tachometer_screen();
+}
+
+void tick_screen_tachometer_screen() {
+}
+
 typedef void (*tick_screen_func_t)();
 tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_intro,
+    tick_screen_tachometer_screen,
 };
 void tick_screen(int screen_index) {
-    if (screen_index >= 0 && screen_index < 1) {
+    if (screen_index >= 0 && screen_index < 2) {
         tick_screen_funcs[screen_index]();
     }
 }
@@ -152,4 +220,5 @@ void create_screens() {
     // Initialize screens
     // Create screens
     create_screen_intro();
+    create_screen_tachometer_screen();
 }

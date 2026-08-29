@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "pico/time.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "lvgl.h"
@@ -31,9 +32,40 @@ void my_disp_flush(lv_display_t * disp, const lv_area_t * area, uint8_t * px_map
 }
 
 void lvgl_task(void *p) {
+    absolute_time_t start = get_absolute_time();
+    bool tach = false;
+    int16_t step = 10; // Controls the speed and direction of the needle
+
     while (1) {
-        // Tell LVGL to process its internal timers and redraw the screen
-        // Also increment the tick for LVGL's internal timing
+        if(get_absolute_time() - start >= 3000000) { // 3 seconds
+            loadScreen(2);
+            tach = true;
+        }
+
+        if(tach) {
+            //lv_arc_set_value(objects.tachometer_arc, (lv_arc_get_value(objects.tachometer_arc) + 10) % 3300);
+            //lv_image_set_rotation(objects.gauge_needle, (lv_image_get_rotation(objects.gauge_needle) + 10) % 3300);
+
+            // 2. Read the current value
+            int32_t current_val = lv_arc_get_value(objects.tachometer_arc);
+            
+            // 3. Add the step (moves up if positive, down if negative)
+            current_val += step;
+
+            // 4. Check boundaries and reverse direction if limits are hit
+            if(current_val >= 3300) {
+                current_val = 3300;
+                step = -10; // Reverse direction to sweep down
+            } else if(current_val <= 360) {
+                current_val = 360;
+                step = 10;  // Reverse direction to sweep up
+            }
+
+            // 5. Apply the synchronized value to both the arc and the needle
+            lv_arc_set_value(objects.tachometer_arc, current_val);
+            lv_image_set_rotation(objects.gauge_needle, current_val);
+        }
+
         lv_tick_inc(5);
         lv_timer_handler(); 
         vTaskDelay(pdMS_TO_TICKS(5));
@@ -46,6 +78,7 @@ int main()
     
     // Initialize the LCD hardware
     LCD_initDisplay(INITR_BLACKTAB);
+    LCD_setRotation(2);
 
     // Initialize the LVGL core
     lv_init();

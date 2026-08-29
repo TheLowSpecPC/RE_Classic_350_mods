@@ -404,6 +404,15 @@ rule RERUN_CMAKE
 
 
 #############################################
+# Rule for re-checking globbed directories.
+
+rule VERIFY_GLOBS
+  command = C:\Users\ASUS\.pico-sdk\cmake\v4.3.4\bin\cmake.exe -P C:\Users\ASUS\PycharmProjects\RE_Classic_350_mods\build\CMakeFiles\VerifyGlobs.cmake
+  description = Re-checking globbed directories...
+  generator = 1
+
+
+#############################################
 # Rule for cleaning all built files.
 
 rule CLEAN

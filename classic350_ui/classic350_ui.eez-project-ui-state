@@ -1,8 +1,11 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[classic350_ui.eez-project]:/userPages/0",
-    "selectedBitmapObject": "[classic350_ui.eez-project]:/bitmaps/0",
-    "subnavigationSelectedItems": {}
+    "selectedUserPageObject": "[classic350_ui.eez-project]:/userPages/1",
+    "selectedGlobalVariableObject": "[classic350_ui.eez-project]:/variables/globalVariables/-1",
+    "selectedBitmapObject": "[classic350_ui.eez-project]:/bitmaps/1",
+    "subnavigationSelectedItems": {
+      "variables-tab/sub-navigation/selected-item": "Global"
+    }
   },
   "layoutModel": {
     "rootEditor": {
@@ -164,7 +167,8 @@
                       "enableClose": false,
                       "icon": "svg:hierarchy"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -188,6 +192,7 @@
               "type": "tabset",
               "id": "EDITORS",
               "weight": 51.14689709347997,
+              "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
@@ -206,10 +211,10 @@
                 {
                   "type": "tab",
                   "id": "#80d2b9b9-3ad2-491f-aedf-c7258cbd21a0",
-                  "name": "Main",
+                  "name": "TachometerScreen",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[classic350_ui.eez-project]:/userPages/0",
+                    "objectPath": "[classic350_ui.eez-project]:/userPages/1",
                     "permanent": false
                   },
                   "icon": "svg:page"
@@ -234,8 +239,7 @@
                       "enableClose": false,
                       "icon": "svg:properties"
                     }
-                  ],
-                  "active": true
+                  ]
                 },
                 {
                   "type": "tabset",
@@ -455,10 +459,22 @@
               "type": "tabset",
               "id": "RUNTIME-EDITORS",
               "weight": 1,
-              "selected": -1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
-              "children": []
+              "children": [
+                {
+                  "type": "tab",
+                  "id": "#d7c2dae0-4bba-4522-b653-77601a2a7382",
+                  "name": "Intro",
+                  "component": "editor",
+                  "config": {
+                    "objectPath": "[classic350_ui.eez-project]:/userPages/0",
+                    "permanent": false
+                  },
+                  "icon": "svg:page"
+                }
+              ],
+              "active": true
             },
             {
               "type": "row",
@@ -1077,7 +1093,31 @@
       "transform": {
         "translate": {
           "x": -137.60003662109375,
-          "y": -154.39999389648438
+          "y": -154.39999389648443
+        },
+        "scale": 2
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[classic350_ui.eez-project]:/userPages/1[flow-state]": {
+      "selectionFront": {},
+      "selectionBack": {
+        "0": {
+          "1": {},
+          "4": {
+            "$selected": true
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -116.79998779296875,
+          "y": -144
         },
         "scale": 2
       },
@@ -1095,6 +1135,7 @@
   "searchMatchWholeWord": false,
   "replaceEnabled": false,
   "replaceText": "",
+  "pageRuntimeFrontFace": false,
   "breakpoints": {},
   "watchExpressions": [],
   "showComponentDescriptions": true,
@@ -1102,10 +1143,12 @@
   "selectedStylePropertyName": "",
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
-  "lvglExpandedPropertiesGroup": [],
+  "lvglExpandedPropertiesGroup": [
+    "TEXT"
+  ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
   "flowZoom": 2,
   "implementationLanguage": "C",
-  "openDialogDefaultPath": "C:\\Users\\ASUS\\PycharmProjects\\RE_Classic_350_mods\\classic350_ui\\assets\\mahoraga.jpg"
+  "openDialogDefaultPath": "C:\\Users\\ASUS\\Downloads\\index.png"
 }
