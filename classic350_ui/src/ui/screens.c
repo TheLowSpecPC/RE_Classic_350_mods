@@ -80,7 +80,7 @@ void create_screen_tachometer_screen() {
             lv_obj_set_pos(obj, 0, 16);
             lv_obj_set_size(obj, 128, 128);
             lv_scale_set_mode(obj, LV_SCALE_MODE_ROUND_INNER);
-            lv_scale_set_range(obj, 0, 5500);
+            lv_scale_set_range(obj, 0, 8000);
             lv_scale_set_angle_range(obj, 300);
             lv_scale_set_rotation(obj, 120);
             lv_scale_set_total_tick_count(obj, 41);
@@ -91,8 +91,9 @@ void create_screen_tachometer_screen() {
             lv_obj_set_style_line_width(obj, 3, LV_PART_INDICATOR);
         }
         {
+            // lock
             lv_obj_t *obj = lv_led_create(parent_obj);
-            objects.obj0 = obj;
+            objects.lock = obj;
             lv_obj_set_pos(obj, 108, 16);
             lv_obj_set_size(obj, 16, 16);
             lv_led_set_color(obj, lv_color_hex(0xff0000));

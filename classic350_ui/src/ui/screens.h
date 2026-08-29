@@ -21,7 +21,7 @@ typedef struct _objects_t {
     lv_obj_t *tachometer_screen;
     lv_obj_t *tachometer_arc;
     lv_obj_t *tachometer_scale;
-    lv_obj_t *obj0;
+    lv_obj_t *lock;
     lv_obj_t *gauge_needle;
 } objects_t;
 

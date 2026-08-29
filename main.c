@@ -7,17 +7,35 @@
 #include "st7735.h"
 #include "ui.h"
 
-// 1. Define your screen resolution (based on your EEZ Studio settings)
+// Define your screen resolution (based on your EEZ Studio settings)
 #define MY_DISP_HOR_RES 128
 #define MY_DISP_VER_RES 160
 #define BYTE_PER_PIXEL 2 // RGB565 (16-bit color)
 
-// 2. Allocate a draw buffer for LVGL (1/10th screen size is standard)
+// Allocate a draw buffer for LVGL (1/10th screen size is standard)
 static uint8_t draw_buf[MY_DISP_HOR_RES * MY_DISP_VER_RES / 10 * BYTE_PER_PIXEL];
 
-TaskHandle_t lvglTaskHandle;
+// --- RPM Configuration Constants ---
+#define PULSE_PIN 14              // GPIO pin for the sensor
+#define DEBOUNCE_US 6000          // 6ms debounce
+#define TIMEOUT_US 1500000        // 1.5 second timeout
+#define MAX_RPM 5500              // Max RPM
+#define ALPHA 0.3f                // Smoothing factor
 
-// 3. Create the flush callback to push pixels to the ST7735
+// --- Volatile Global Variables ---
+volatile uint64_t last_pulse_time = 0;
+volatile uint64_t pulse_interval_us = 0;
+volatile bool new_pulse_received = false;
+
+// The global RPM variable shared between tasks
+volatile int32_t global_rpm = 0;
+
+// Linear Interpolation helper
+int32_t linear_interp(int32_t in, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max) {
+    return (((in - in_min) * (out_max - out_min)) / (in_max - in_min)) + out_min;
+}
+
+// Create the flush callback to push pixels to the ST7735
 void my_disp_flush(lv_display_t * disp, const lv_area_t * area, uint8_t * px_map)
 {
     uint16_t width = area->x2 - area->x1 + 1;
@@ -31,10 +49,59 @@ void my_disp_flush(lv_display_t * disp, const lv_area_t * area, uint8_t * px_map
     lv_display_flush_ready(disp);
 }
 
+// --- Hardware Interrupt (ISR) ---
+void rpm_callback(uint gpio, uint32_t events) {
+    uint64_t current_time = time_us_64();
+    uint64_t elapsed = current_time - last_pulse_time;
+    
+    if (elapsed > DEBOUNCE_US) {
+        pulse_interval_us = elapsed;
+        last_pulse_time = current_time;
+        new_pulse_received = true;
+    }
+}
+
+// --- RPM Calculator ---
+TaskHandle_t rpmTaskHandle;
+void rpm_task(void *p) {
+    int32_t current_rpm = 0;
+    float smoothed_rpm = 0.0f; 
+
+    while (1) {
+        uint64_t now = time_us_64();
+        uint64_t time_since_last = now - last_pulse_time;
+        
+        // Check if engine stopped
+        if (time_since_last > TIMEOUT_US && last_pulse_time != 0) {
+            current_rpm = 0;
+            smoothed_rpm = 0.0f;
+            last_pulse_time = 0;
+            global_rpm = 0;
+        }
+        // Process new pulse data
+        else if (new_pulse_received) {
+            new_pulse_received = false;
+            
+            if (pulse_interval_us > 0) {
+                current_rpm = 60000000 / pulse_interval_us; // Calculate RPM from microsecond interval
+                smoothed_rpm = (ALPHA * current_rpm) + ((1.0f - ALPHA) * smoothed_rpm); // Apply smoothing
+                
+                // Cap the RPM so we don't exceed the gauge's bounds
+                if(smoothed_rpm > MAX_RPM) smoothed_rpm = MAX_RPM;
+                
+                // Update the global variable safely
+                global_rpm = (int32_t)smoothed_rpm;
+            }
+        }
+        
+        vTaskDelay(pdMS_TO_TICKS(20));
+    }
+}
+
+TaskHandle_t lvglTaskHandle;
 void lvgl_task(void *p) {
     absolute_time_t start = get_absolute_time();
     bool tach = false;
-    int16_t step = 10; // Controls the speed and direction of the needle
 
     while (1) {
         if(get_absolute_time() - start >= 3000000) { // 3 seconds
@@ -43,27 +110,13 @@ void lvgl_task(void *p) {
         }
 
         if(tach) {
-            //lv_arc_set_value(objects.tachometer_arc, (lv_arc_get_value(objects.tachometer_arc) + 10) % 3300);
-            //lv_image_set_rotation(objects.gauge_needle, (lv_image_get_rotation(objects.gauge_needle) + 10) % 3300);
 
-            // 2. Read the current value
-            int32_t current_val = lv_arc_get_value(objects.tachometer_arc);
-            
-            // 3. Add the step (moves up if positive, down if negative)
-            current_val += step;
+            int32_t current_val = global_rpm;
 
-            // 4. Check boundaries and reverse direction if limits are hit
-            if(current_val >= 3300) {
-                current_val = 3300;
-                step = -10; // Reverse direction to sweep down
-            } else if(current_val <= 360) {
-                current_val = 360;
-                step = 10;  // Reverse direction to sweep up
-            }
+            int32_t mapped_val = linear_interp(current_val, 0, 8000, 360, 3300);
 
-            // 5. Apply the synchronized value to both the arc and the needle
-            lv_arc_set_value(objects.tachometer_arc, current_val);
-            lv_image_set_rotation(objects.gauge_needle, current_val);
+            lv_arc_set_value(objects.tachometer_arc, mapped_val);
+            lv_image_set_rotation(objects.gauge_needle, mapped_val);
         }
 
         lv_tick_inc(5);
@@ -83,7 +136,7 @@ int main()
     // Initialize the LVGL core
     lv_init();
 
-    // 4. Register the display with LVGL
+    // Register the display with LVGL
     lv_display_t * disp = lv_display_create(MY_DISP_HOR_RES, MY_DISP_VER_RES);
     lv_display_set_flush_cb(disp, my_disp_flush);
     lv_display_set_buffers(disp, draw_buf, NULL, sizeof(draw_buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
@@ -91,8 +144,17 @@ int main()
     // Initialize the EEZ Studio UI
     ui_init();
 
+    // --- GPIO Sensor Setup ---
+    gpio_init(PULSE_PIN);
+    gpio_set_dir(PULSE_PIN, GPIO_IN); // Set as input
+    gpio_pull_up(PULSE_PIN);          // Enable pull up resistor
+
+    // Attach the hardware interrupt to the pulse pin, triggering on the falling edge
+    gpio_set_irq_enabled_with_callback(PULSE_PIN, GPIO_IRQ_EDGE_FALL, true, &rpm_callback);
+
     // Create the LVGL processing thread
     xTaskCreate(lvgl_task, "LVGL_Task", 4096, NULL, 1, &lvglTaskHandle);
+    xTaskCreate(rpm_task, "RPM_Task", 1024, NULL, 2, &rpmTaskHandle);
 
     // Start FreeRTOS kernel
     vTaskStartScheduler();
