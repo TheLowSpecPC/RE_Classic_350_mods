@@ -10069,7 +10069,6 @@ END GROUP
                                  0x46 (size before relaxing)
  .rodata        0x100629c8     0xa01c classic350_ui/libclassic350_ui.a(ui_image_magora.c.obj)
                 0x100629c8                img_magora
-                0x100629e4                img_magora_map
  *(.srodata*)
                 0x1006c9e4                        . = ALIGN (0x4)
  *(SORT_BY_ALIGNMENT(SORT_BY_NAME(.flashdata*)))
@@ -10508,7 +10507,7 @@ END GROUP
 OUTPUT(RE_Classic_350_mods.elf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000   0x1a8586
+.debug_info     0x00000000   0x1a8588
  .debug_info    0x00000000      0x8be CMakeFiles/RE_Classic_350_mods.dir/main.c.obj
  .debug_info    0x000008be     0x2360 CMakeFiles/RE_Classic_350_mods.dir/C_/Users/ASUS/.pico-sdk/sdk/2.3.0/src/rp2_common/hardware_gpio/gpio.c.obj
  .debug_info    0x00002c1e      0x1bf CMakeFiles/RE_Classic_350_mods.dir/C_/Users/ASUS/.pico-sdk/sdk/2.3.0/src/rp2_common/pico_platform_panic/panic.c.obj
@@ -10677,9 +10676,9 @@ LOAD linker stubs
  .debug_info    0x001a1b6d     0x571f libraries/lvgl/lib/liblvgl.a(lv_grid.c.obj)
  .debug_info    0x001a728c      0x3d8 classic350_ui/libclassic350_ui.a(ui.c.obj)
  .debug_info    0x001a7664      0xbec classic350_ui/libclassic350_ui.a(screens.c.obj)
- .debug_info    0x001a8250      0x336 classic350_ui/libclassic350_ui.a(ui_image_magora.c.obj)
+ .debug_info    0x001a8250      0x338 classic350_ui/libclassic350_ui.a(ui_image_magora.c.obj)
 
-.debug_abbrev   0x00000000    0x27010
+.debug_abbrev   0x00000000    0x27020
  .debug_abbrev  0x00000000      0x27f CMakeFiles/RE_Classic_350_mods.dir/main.c.obj
  .debug_abbrev  0x0000027f      0x4db CMakeFiles/RE_Classic_350_mods.dir/C_/Users/ASUS/.pico-sdk/sdk/2.3.0/src/rp2_common/hardware_gpio/gpio.c.obj
  .debug_abbrev  0x0000075a      0x12b CMakeFiles/RE_Classic_350_mods.dir/C_/Users/ASUS/.pico-sdk/sdk/2.3.0/src/rp2_common/pico_platform_panic/panic.c.obj
@@ -10848,7 +10847,7 @@ LOAD linker stubs
  .debug_abbrev  0x000264c6      0x536 libraries/lvgl/lib/liblvgl.a(lv_grid.c.obj)
  .debug_abbrev  0x000269fc      0x1e5 classic350_ui/libclassic350_ui.a(ui.c.obj)
  .debug_abbrev  0x00026be1      0x352 classic350_ui/libclassic350_ui.a(screens.c.obj)
- .debug_abbrev  0x00026f33       0xdd classic350_ui/libclassic350_ui.a(ui_image_magora.c.obj)
+ .debug_abbrev  0x00026f33       0xed classic350_ui/libclassic350_ui.a(ui_image_magora.c.obj)
 
 .debug_loclists
                 0x00000000   0x11fabc

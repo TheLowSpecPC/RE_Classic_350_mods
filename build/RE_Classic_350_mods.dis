@@ -43,27 +43,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS
  19 .stack_dummy  00000800  20041000  20041000  0006f000  2**5
                   ALLOC, READONLY
- 20 .debug_info   001a8586  00000000  00000000  0006ea80  2**0
+ 20 .debug_info   001a8588  00000000  00000000  0006ea80  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_abbrev 00027010  00000000  00000000  00217006  2**0
+ 21 .debug_abbrev 00027020  00000000  00000000  00217008  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_loclists 0011fabc  00000000  00000000  0023e016  2**0
+ 22 .debug_loclists 0011fabc  00000000  00000000  0023e028  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .debug_aranges 000063f8  00000000  00000000  0035dad8  2**3
+ 23 .debug_aranges 000063f8  00000000  00000000  0035dae8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 24 .debug_rnglists 0001ed4e  00000000  00000000  00363ed0  2**0
+ 24 .debug_rnglists 0001ed4e  00000000  00000000  00363ee0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 25 .debug_line   00102183  00000000  00000000  00382c1e  2**0
+ 25 .debug_line   00102183  00000000  00000000  00382c2e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 26 .debug_str    00024ec9  00000000  00000000  00484da1  2**0
+ 26 .debug_str    00024ec9  00000000  00000000  00484db1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 27 .comment      00000045  00000000  00000000  004a9c6a  2**0
+ 27 .comment      00000045  00000000  00000000  004a9c7a  2**0
                   CONTENTS, READONLY
- 28 .ARM.attributes 0000002a  00000000  00000000  004a9caf  2**0
+ 28 .ARM.attributes 0000002a  00000000  00000000  004a9cbf  2**0
                   CONTENTS, READONLY
- 29 .debug_frame  00011c60  00000000  00000000  004a9cdc  2**2
+ 29 .debug_frame  00011c60  00000000  00000000  004a9cec  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 30 .debug_line_str 0000034b  00000000  00000000  004bb93c  2**0
+ 30 .debug_line_str 0000034b  00000000  00000000  004bb94c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 C:/Users/ASUS/PycharmProjects/RE_Classic_350_mods/build/RE_Classic_350_mods.elf:     file format elf32-littlearm

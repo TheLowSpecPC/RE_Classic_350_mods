@@ -22,6 +22,7 @@
           },
           {
             "type": "border",
+            "selected": 2,
             "size": 240,
             "location": "right",
             "children": [
@@ -187,7 +188,6 @@
               "type": "tabset",
               "id": "EDITORS",
               "weight": 51.14689709347997,
-              "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
@@ -214,8 +214,7 @@
                   },
                   "icon": "svg:page"
                 }
-              ],
-              "active": true
+              ]
             },
             {
               "type": "row",
@@ -235,7 +234,8 @@
                       "enableClose": false,
                       "icon": "svg:properties"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -1067,7 +1067,12 @@
     "[classic350_ui.eez-project]:/userPages/0[flow-state]": {
       "selectionFront": {},
       "selectionBack": {
-        "0": {}
+        "0": {
+          "0": {
+            "$selected": true
+          },
+          "1": {}
+        }
       },
       "transform": {
         "translate": {
@@ -1102,5 +1107,5 @@
   "globalFlowZoom": true,
   "flowZoom": 2,
   "implementationLanguage": "C",
-  "openDialogDefaultPath": "C:\\Users\\ASUS\\Downloads\\82986363-heres-a-cool-mahoraga-w.jpg"
+  "openDialogDefaultPath": "C:\\Users\\ASUS\\PycharmProjects\\RE_Classic_350_mods\\classic350_ui\\assets\\mahoraga.jpg"
 }
