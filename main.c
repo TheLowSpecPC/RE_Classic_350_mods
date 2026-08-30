@@ -110,13 +110,15 @@ void lvgl_task(void *p) {
         }
 
         if(tach) {
+            int32_t mapped_val = linear_interp(global_rpm, 0, 8000, 360, 3300);
 
-            int32_t current_val = global_rpm;
-
-            int32_t mapped_val = linear_interp(current_val, 0, 8000, 360, 3300);
+            char buffer_rpm[16];
+            snprintf(buffer_rpm, sizeof(buffer_rpm), "%d", global_rpm);
 
             lv_arc_set_value(objects.tachometer_arc, mapped_val);
             lv_image_set_rotation(objects.gauge_needle, mapped_val);
+            lv_label_set_text(objects.tach_reading, buffer_rpm);
+            lv_obj_center(objects.tach_reading);
         }
 
         lv_tick_inc(5);

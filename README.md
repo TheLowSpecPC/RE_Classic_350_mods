@@ -27,3 +27,5 @@ The mods will include electrical, electronics and embedded systems components.
 ## TODO
 * Hazard Lights
 * Quick Shifter
+* Tripper Navigation
+* Bluetooth Media Control
